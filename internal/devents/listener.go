@@ -20,16 +20,19 @@ type Listener struct {
 func NewListener(ctx context.Context,
 	cli *docker.Client, logger *zerolog.Logger, cfg *viper.Viper,
 ) *Listener {
+	counter := prometheus.NewCounterVec(prometheus.CounterOpts{
+		Namespace: cfg.GetString("metric.namespace"),
+		Subsystem: cfg.GetString("metric.subsystem"),
+		Name:      cfg.GetString("metric.name"),
+		Help:      "Number of docker events.",
+	}, []string{"type", "action", "status", "scope", "from", "name"})
+	prometheus.MustRegister(counter)
+
 	return &Listener{
-		ctx:    ctx,
-		cli:    cli,
-		logger: logger,
-		counter: prometheus.NewCounterVec(prometheus.CounterOpts{
-			Namespace: cfg.GetString("metric.namespace"),
-			Subsystem: cfg.GetString("metric.subsystem"),
-			Name:      cfg.GetString("metric.name"),
-			Help:      "Number of docker events.",
-		}, []string{"type", "action", "status", "scope", "from", "name"}),
+		ctx:     ctx,
+		cli:     cli,
+		logger:  logger,
+		counter: counter,
 	}
 }
 
