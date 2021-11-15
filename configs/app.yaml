@@ -1,0 +1,9 @@
+debug: false
+port: 8080
+docker:
+  host: unix:///var/run/docker.sock
+metric:
+  endpoint: /metrics
+  namespace: ""
+  subsystem: ""
+  name:      ""

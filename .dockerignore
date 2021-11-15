@@ -1,0 +1,6 @@
+/.devcontainer
+/.github
+/bin
+/vendor
+/.env
+/.env.dist

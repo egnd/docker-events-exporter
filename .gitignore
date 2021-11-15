@@ -1,0 +1,5 @@
+/.go
+/bin
+/vendor
+/.env
+.DS_Store
